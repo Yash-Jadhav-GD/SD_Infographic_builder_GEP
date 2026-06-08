@@ -129,11 +129,15 @@ def build_spec(tpl, req: GenRequest, out_path: str):
 
 
 def render_preview(pptx_path: str, out_dir: str):
-    subprocess.run(
-        ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
-         "-File", str(EXPORT_PS1), "-Pptx", pptx_path, "-OutDir", out_dir],
-        capture_output=True, text=True, timeout=120,
-    )
+    try:
+        subprocess.run(
+            ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
+             "-File", str(EXPORT_PS1), "-Pptx", pptx_path, "-OutDir", out_dir],
+            capture_output=True, text=True, timeout=120,
+        )
+    except (FileNotFoundError, OSError):
+        # powershell not available (Linux/Render) — preview unavailable, continue
+        return None
     pngs = sorted(glob.glob(os.path.join(out_dir, "*.PNG")))
     return pngs[0] if pngs else None
 
