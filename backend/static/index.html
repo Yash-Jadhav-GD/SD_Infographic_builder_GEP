@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEP Infographic Builder</title>
+<style>
+  :root{ --purple:#48397E; --orange:#FE860E; --navy:#101B3B; --navy2:#243472;
+         --charcoal:#111827; --steel:#6B7280; --cloud:#E5E7EB; }
+  *{box-sizing:border-box;font-family:'Aptos','Segoe UI',sans-serif;}
+  body{margin:0;background:var(--cloud);color:var(--charcoal);}
+  header{background:linear-gradient(90deg,var(--navy),var(--purple));color:#fff;
+         padding:18px 32px;display:flex;align-items:center;justify-content:space-between;}
+  header h1{font-size:20px;margin:0;font-weight:700;}
+  header .logo{font-weight:800;letter-spacing:1px;}
+  .wrap{max-width:1100px;margin:24px auto;padding:0 24px;display:grid;
+        grid-template-columns:1fr 1fr;gap:24px;}
+  .card{background:#fff;border:1px solid var(--cloud);border-radius:10px;padding:22px;}
+  h2{font-size:15px;text-transform:uppercase;letter-spacing:.5px;color:var(--purple);margin:0 0 14px;}
+  label{display:block;font-size:12px;font-weight:700;color:var(--steel);margin:12px 0 4px;}
+  input,textarea,select{width:100%;padding:9px 11px;border:1px solid var(--cloud);border-radius:6px;font-size:14px;background:#fff;}
+  textarea{resize:vertical;min-height:48px;}
+  .item{border-left:3px solid var(--orange);padding-left:12px;margin-bottom:10px;}
+  .item-head{display:flex;justify-content:space-between;align-items:center;}
+  .item-head span{font-weight:700;color:var(--purple);}
+  .btn{background:var(--purple);color:#fff;border:none;padding:11px 18px;border-radius:6px;
+       font-weight:700;cursor:pointer;font-size:14px;}
+  .btn.alt{background:#fff;color:var(--purple);border:1px solid var(--purple);}
+  .btn.orange{background:var(--orange);}
+  .row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+  .del{background:none;border:none;color:var(--steel);cursor:pointer;font-size:18px;line-height:1;}
+  #preview img{width:100%;border:1px solid var(--cloud);border-radius:6px;margin-top:8px;}
+  .muted{color:var(--steel);font-size:13px;}
+  .pill{display:inline-block;background:var(--cloud);border-radius:20px;padding:3px 10px;
+        font-size:11px;color:var(--purple);font-weight:700;margin-top:6px;}
+  .spin{display:none;color:var(--purple);font-weight:700;margin-top:12px;}
+  .btn.small{padding:6px 12px;font-size:12px;}
+  .iconrow{display:flex;gap:6px;align-items:center;}
+  .iconresults{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+  .iconresults img{width:38px;height:38px;padding:4px;border:2px solid transparent;
+       border-radius:6px;background:#fff;cursor:pointer;}
+  .iconresults img:hover{border-color:var(--cloud);}
+  .iconresults img.sel{border-color:var(--orange);background:#FFF3E7;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Infographic Builder</h1>
+  <div class="logo">GEP</div>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <h2>Your Content</h2>
+    <label>Layout</label>
+    <select id="layout">
+      <option value="">Auto (pick by item count)</option>
+    </select>
+
+    <label>Slide Title</label>
+    <input id="title" placeholder="e.g. Three Pillars of Procurement Transformation">
+
+    <label>Center label <span class="muted">(optional — for layouts with a center node, e.g. "VS")</span></label>
+    <input id="center" placeholder="leave blank to hide">
+
+    <label>Points / Items</label>
+    <div id="items"></div>
+    <div class="row">
+      <button class="btn alt" onclick="addItem()">+ Add item</button>
+    </div>
+
+    <div class="row">
+      <button class="btn orange" onclick="generate()">Generate infographic</button>
+    </div>
+    <div class="spin" id="spin">Generating &amp; rendering preview…</div>
+    <div id="msg" class="muted"></div>
+  </div>
+
+  <div class="card">
+    <h2>Preview</h2>
+    <div id="preview"><p class="muted">Your branded slide will appear here.</p></div>
+    <div class="row" id="dlrow" style="display:none">
+      <a id="dl" class="btn" download>Download .pptx</a>
+    </div>
+    <div id="tplinfo"></div>
+  </div>
+</div>
+
+<script>
+let count=0;
+async function loadLayouts(){
+  try{
+    const tpls=await (await fetch('/api/templates')).json();
+    const sel=document.getElementById('layout');
+    const mk=(label)=>{const g=document.createElement('optgroup');g.label=label;sel.appendChild(g);return g;};
+    const curated=mk(`Recommended (${tpls.filter(t=>!t.auto).length})`);
+    const lib=mk(`Template library (${tpls.filter(t=>t.auto).length})`);
+    tpls.sort((a,b)=>a.name.localeCompare(b.name)).forEach(t=>{
+      const o=document.createElement('option');
+      o.value=t.id; o.textContent=`${t.name} · ${t.item_count} items`;
+      (t.auto?lib:curated).appendChild(o);
+    });
+  }catch(e){}
+}
+loadLayouts();
+function addItem(label="",body="",meta=""){
+  count++;
+  const d=document.createElement('div');
+  d.className='item';
+  d.innerHTML=`<div class="item-head"><span>Item ${count}</span>
+      <button class="del" onclick="this.closest('.item').remove()">×</button></div>
+    <label>Label (short)</label><input class="lbl" value="${label}">
+    <label>Date / period <span class="muted">(optional — used by Timeline)</span></label>
+    <input class="meta" value="${meta}" placeholder="e.g. 2024 or Q3">
+    <label>Description</label><textarea class="body">${body}</textarea>
+    <label>Icon <span class="muted">(search the GEP library)</span></label>
+    <div class="iconrow">
+      <input class="iconq" placeholder="e.g. risk, savings, automation"
+             onkeydown="if(event.key==='Enter'){event.preventDefault();searchIcons(this);}">
+      <button class="btn alt small" onclick="searchIcons(this.previousElementSibling)">Find</button>
+    </div>
+    <div class="iconresults"></div>
+    <input type="hidden" class="iconfile">`;
+  document.getElementById('items').appendChild(d);
+}
+addItem("Visibility","Unified spend data across every category gives leaders a single source of truth.");
+addItem("Automation","Touchless POs and auto-approvals cut cycle time and free up the team.");
+addItem("Intelligence","AI surfaces savings, risk and supplier insights before they become problems.");
+
+async function searchIcons(inputEl){
+  const q=inputEl.value.trim();
+  const results=inputEl.closest('.item').querySelector('.iconresults');
+  if(!q){results.innerHTML='';return;}
+  results.innerHTML='<span class="muted">Searching…</span>';
+  try{
+    const r=await fetch(`/api/icons?q=${encodeURIComponent(q)}&color=navy&n=10`);
+    const list=await r.json();
+    if(!list.length){results.innerHTML='<span class="muted">No icons found.</span>';return;}
+    results.innerHTML='';
+    list.forEach(ic=>{
+      const img=document.createElement('img');
+      img.src=ic.recolored;
+      img.title=(ic.tags||[]).join(', ');
+      img.onclick=()=>{
+        const item=img.closest('.item');
+        item.querySelectorAll('.iconresults img').forEach(x=>x.classList.remove('sel'));
+        img.classList.add('sel');
+        item.querySelector('.iconfile').value=ic.icon.replace(/^\//,'');
+      };
+      results.appendChild(img);
+    });
+  }catch(e){results.innerHTML='<span class="muted">Error: '+e+'</span>';}
+}
+
+async function generate(){
+  const title=document.getElementById('title').value || "Untitled";
+  const center=document.getElementById('center').value || "";
+  const template_id=document.getElementById('layout').value || null;
+  const items=[...document.querySelectorAll('.item')].map(it=>({
+    label:it.querySelector('.lbl').value, body:it.querySelector('.body').value,
+    meta:it.querySelector('.meta').value || null,
+    icon:it.querySelector('.iconfile').value || null }));
+  document.getElementById('spin').style.display='block';
+  document.getElementById('msg').textContent='';
+  try{
+    const r=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({title,center,items,template_id})});
+    const j=await r.json();
+    document.getElementById('spin').style.display='none';
+    if(j.error){document.getElementById('msg').textContent=j.error;return;}
+    const pv=document.getElementById('preview');
+    pv.innerHTML = j.preview ? `<img src="${j.preview}?t=${Date.now()}">`
+                             : '<p class="muted">Generated (preview unavailable on this machine).</p>';
+    const dl=document.getElementById('dl'); dl.href=j.download;
+    document.getElementById('dlrow').style.display='flex';
+    document.getElementById('tplinfo').innerHTML=`<span class="pill">Template: ${j.template_used}</span>`;
+  }catch(e){
+    document.getElementById('spin').style.display='none';
+    document.getElementById('msg').textContent='Error: '+e;
+  }
+}
+</script>
+</body>
+</html>

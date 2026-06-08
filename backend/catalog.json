@@ -1,0 +1,237 @@
+{
+  "templates": [
+    {
+      "id": "2pt-panels",
+      "name": "2 Points \u2014 Twin Panels",
+      "family": "points",
+      "item_count": 2,
+      "template": "_assets/Assets/2Pt.pptx",
+      "slide_index": 1,
+      "description": "Two side-by-side panels with a header label and body. Best for comparisons or two parallel ideas.",
+      "title_shape": 28,
+      "items": [
+        {
+          "name_shape": 104,
+          "body_shape": 105
+        },
+        {
+          "name_shape": 108,
+          "body_shape": 109
+        }
+      ],
+      "name_capacity": 28,
+      "body_capacity": 260,
+      "center_shape": 96
+    },
+    {
+      "id": "3pt-arc",
+      "name": "3 Points \u2014 Semicircle Arc",
+      "family": "points",
+      "item_count": 3,
+      "template": "_assets/Assets/3Pt.pptx",
+      "slide_index": 1,
+      "description": "Three pillars with a labelled semicircle and three description cards. Best for 3 parallel concepts.",
+      "title_shape": 2,
+      "items": [
+        {
+          "name_shape": 83,
+          "number_shape": 105,
+          "body_shape": 75
+        },
+        {
+          "name_shape": 90,
+          "number_shape": 106,
+          "body_shape": 77
+        },
+        {
+          "name_shape": 91,
+          "number_shape": 107,
+          "body_shape": 79
+        }
+      ],
+      "name_capacity": 14,
+      "body_capacity": 120,
+      "icon_color": "white",
+      "icon_anchors": [
+        {"L": 2.93, "T": 3.46, "W": 0.45, "H": 0.45},
+        {"L": 6.39, "T": 3.46, "W": 0.45, "H": 0.45},
+        {"L": 9.90, "T": 3.46, "W": 0.45, "H": 0.45}
+      ]
+    },
+    {
+      "id": "4pt-quad",
+      "name": "4 Points \u2014 Quadrant Cards",
+      "family": "points",
+      "item_count": 4,
+      "template": "_assets/Assets/4Pt.pptx",
+      "slide_index": 1,
+      "description": "Four labelled cards around a central node. Best for four parallel points or a 2x2 breakdown.",
+      "title_shape": 28,
+      "items": [
+        {
+          "name_shape": 76,
+          "body_shape": 63
+        },
+        {
+          "name_shape": 77,
+          "body_shape": 67
+        },
+        {
+          "name_shape": 78,
+          "body_shape": 66
+        },
+        {
+          "name_shape": 79,
+          "body_shape": 68
+        }
+      ],
+      "name_capacity": 26,
+      "body_capacity": 180,
+      "center_shape": 29
+    },
+    {
+      "id": "5pt-radial",
+      "name": "5 Points \u2014 Radial",
+      "family": "points",
+      "item_count": 5,
+      "template": "_assets/Assets/5Pt.pptx",
+      "slide_index": 1,
+      "description": "Five description blocks arranged around a central radial diagram with icons. Body-only (label folded into body).",
+      "title_shape": 2,
+      "items": [
+        {
+          "body_shape": 135
+        },
+        {
+          "body_shape": 136
+        },
+        {
+          "body_shape": 137
+        },
+        {
+          "body_shape": 138
+        },
+        {
+          "body_shape": 139
+        }
+      ],
+      "name_capacity": 24,
+      "body_capacity": 90
+    },
+    {
+      "id": "6pt-steps",
+      "name": "6 Points \u2014 Ascending Steps",
+      "family": "points",
+      "item_count": 6,
+      "template": "_assets/Assets/6Pt.pptx",
+      "slide_index": 1,
+      "description": "Six stepped blocks rising left to right. Best for six parallel points or a progression. Body-only.",
+      "title_shape": 28,
+      "items": [
+        {
+          "body_shape": 61
+        },
+        {
+          "body_shape": 69
+        },
+        {
+          "body_shape": 72
+        },
+        {
+          "body_shape": 73
+        },
+        {
+          "body_shape": 75
+        },
+        {
+          "body_shape": 76
+        }
+      ],
+      "name_capacity": 24,
+      "body_capacity": 70,
+      "center_shape": 60
+    },
+    {
+      "id": "funnel-3",
+      "name": "3 Stages — Funnel",
+      "family": "funnel",
+      "item_count": 3,
+      "template": "_assets/Assets/Funnel.pptx",
+      "slide_index": 1,
+      "description": "Vertical funnel narrowing through three stages, each with a label, description and icon. Best for a process that filters down (e.g. awareness → conversion).",
+      "title_shape": 2,
+      "items": [
+        {
+          "name_shape": 59,
+          "body_shape": 58
+        },
+        {
+          "name_shape": 61,
+          "body_shape": 60
+        },
+        {
+          "name_shape": 63,
+          "body_shape": 62
+        }
+      ],
+      "name_capacity": 18,
+      "body_capacity": 150,
+      "blank_shapes": [67, 70],
+      "icon_color": "white",
+      "icon_anchors": [
+        {"L": 4.98, "T": 1.10, "W": 0.40, "H": 0.40},
+        {"L": 5.01, "T": 2.92, "W": 0.40, "H": 0.40},
+        {"L": 4.97, "T": 4.62, "W": 0.40, "H": 0.40}
+      ]
+    },
+    {
+      "id": "pyramid-3",
+      "name": "3 Tiers — Pyramid",
+      "family": "pyramid",
+      "item_count": 3,
+      "template": "_assets/Assets/Pyramids.pptx",
+      "slide_index": 2,
+      "description": "A three-tier triangle with a short label per tier and a matching description card. Best for hierarchy, layered priorities or a foundation-to-peak story.",
+      "title_shape": 2,
+      "items": [
+        {
+          "name_shape": 50,
+          "body_shape": 66
+        },
+        {
+          "name_shape": 48,
+          "body_shape": 67
+        },
+        {
+          "name_shape": 49,
+          "body_shape": 68
+        }
+      ],
+      "name_capacity": 30,
+      "body_capacity": 170,
+      "blank_shapes": [39, 61, 63, 64, 65, 69],
+      "remove_shapes": [70, 71, 72]
+    },
+    {
+      "id": "timeline-6",
+      "name": "6 Milestones — Timeline",
+      "family": "timeline",
+      "item_count": 6,
+      "template": "_assets/Assets/Timelines.pptx",
+      "slide_index": 7,
+      "description": "A left-to-right timeline of up to six milestones, each with a short title, a date/period and a description. Best for a roadmap, history or phased rollout.",
+      "title_shape": 328,
+      "items": [
+        {"name_shape": 160, "meta_shape": 221, "body_shape": 151},
+        {"name_shape": 163, "meta_shape": 187, "body_shape": 269},
+        {"name_shape": 166, "meta_shape": 195, "body_shape": 154},
+        {"name_shape": 169, "meta_shape": 204, "body_shape": 270},
+        {"name_shape": 172, "meta_shape": 212, "body_shape": 157},
+        {"name_shape": 247, "meta_shape": 255, "body_shape": 244}
+      ],
+      "name_capacity": 26,
+      "body_capacity": 160,
+      "blank_shapes": [322, 323, 324, 325, 326, 327]
+    }
+  ]
+}
